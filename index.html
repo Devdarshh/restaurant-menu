@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spice Garden | Restaurant Menu</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="hero">
+    <nav class="nav">
+      <a class="logo" href="#">Spice<span>Garden</span></a>
+      <a class="nav-link" href="#menu">Our Menu</a>
+    </nav>
+    <div class="hero-content">
+      <p class="eyebrow">FRESH • LOCAL • DELICIOUS</p>
+      <h1>Good food.<br><span>Good mood.</span></h1>
+      <p class="intro">A little taste of happiness, made fresh every day.</p>
+      <a class="button" href="#menu">Explore Menu</a>
+    </div>
+    <div class="hero-badge">Made with<br><strong>♥</strong><br>every day</div>
+  </header>
+
+  <main id="menu" class="menu-section">
+    <div class="section-heading">
+      <p class="eyebrow">WHAT WE SERVE</p>
+      <h2>Our Menu</h2>
+      <p>Find your new favourite.</p>
+    </div>
+
+    <div class="controls">
+      <input id="search" type="search" placeholder="Search dishes..." aria-label="Search dishes">
+      <div class="filters" aria-label="Filter menu">
+        <button class="filter active" data-category="All">All</button>
+        <button class="filter" data-category="Starters">Starters</button>
+        <button class="filter" data-category="Mains">Mains</button>
+        <button class="filter" data-category="Desserts">Desserts</button>
+        <button class="filter" data-category="Drinks">Drinks</button>
+      </div>
+    </div>
+
+    <div id="menu-grid" class="menu-grid" aria-live="polite"></div>
+    <p id="empty-message" class="empty hidden">No dishes found. Try another search.</p>
+  </main>
+
+  <section class="visit">
+    <div>
+      <p class="eyebrow">COME SAY HELLO</p>
+      <h2>Good food is<br>always a good idea.</h2>
+    </div>
+    <div class="visit-details">
+      <p><strong>Opening hours</strong><br>Mon–Sun: 11:00 AM – 10:00 PM</p>
+      <p><strong>Find us</strong><br>12 Garden Street, Your City</p>
+      <p><strong>Call us</strong><br>+91 98765 43210</p>
+    </div>
+  </section>
+
+  <footer>
+    <a class="logo" href="#">Spice<span>Garden</span></a>
+    <p>© <span id="year"></span> Spice Garden. Made with love and good ingredients.</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
