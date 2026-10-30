@@ -2,6 +2,7 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
+const { exec } = require('node:child_process');
 
 const PORT = process.env.PORT || 3000;
 const DATA_FILE = path.join(__dirname, 'data', 'dishes.json');
@@ -93,10 +94,19 @@ function loadDishes() {
   }
 }
 
-function saveDishes(dishes) {
+function saveDishes(dishes, commitMsg = 'chore: auto-update dishes.json from Admin Panel') {
   const dir = path.dirname(DATA_FILE);
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(DATA_FILE, JSON.stringify(dishes, null, 2), 'utf8');
+
+  // Automatically commit and push to GitHub repository in background
+  exec(`git add data/dishes.json && git commit -m "${commitMsg}" && git push origin main`, { cwd: __dirname }, (err) => {
+    if (err) {
+      logEvent('GIT_SYNC', `GitHub push standby (deploy key needed): ${err.message.split('\\n')[0]}`, C.yellow);
+    } else {
+      logEvent('GIT_SYNC', `✓ Automatically pushed latest menu to GitHub!`, C.brightGreen);
+    }
+  });
 }
 
 function parseJsonBody(req) {

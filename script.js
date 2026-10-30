@@ -152,10 +152,14 @@ const grid         = document.getElementById("menu-grid");
 const searchInput  = document.getElementById("search");
 const emptyMessage = document.getElementById("empty-message");
 
-// ── FETCH LIVE MENU FROM BACKEND ───────────────────────────
+// ── FETCH LIVE MENU FROM BACKEND OR GITHUB ─────────────────
 async function fetchMenu() {
   try {
-    const res = await fetch('/api/menu');
+    // If on GitHub Pages, fetch data/dishes.json; if on custom server/local, fetch /api/menu
+    const isGitHubPages = window.location.hostname.includes('github.io');
+    const endpoint = isGitHubPages ? './data/dishes.json' : '/api/menu';
+
+    const res = await fetch(endpoint);
     if (res.ok) {
       const liveDishes = await res.json();
       if (Array.isArray(liveDishes) && liveDishes.length > 0) {
