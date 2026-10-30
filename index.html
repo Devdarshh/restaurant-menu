@@ -3,62 +3,141 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spice Garden | Restaurant Menu</title>
+  <title>Spice Garden | Fine Dining Restaurant Menu</title>
+  <meta name="description" content="Spice Garden — Fresh, locally sourced ingredients crafted into extraordinary dishes. Explore our seasonal menu of starters, mains, desserts & drinks.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="hero">
-    <nav class="nav">
-      <a class="logo" href="#">Spice<span>Garden</span></a>
-      <a class="nav-link" href="#menu">Our Menu</a>
+
+  <!-- ── HEADER / HERO ─────────────────────────────── -->
+  <header class="hero" id="home">
+    <nav class="nav" role="navigation" aria-label="Main navigation">
+      <a class="logo" href="#home" aria-label="Spice Garden home">Spice<span>Garden</span></a>
+      <div class="nav-links">
+        <a class="nav-link" href="#menu">Menu</a>
+        <a class="nav-link" href="#visit">Visit Us</a>
+        <a class="nav-cta" href="tel:+919876543210">Reserve a Table</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </nav>
+
     <div class="hero-content">
-      <p class="eyebrow">FRESH • LOCAL • DELICIOUS</p>
-      <h1>Good food.<br><span>Good mood.</span></h1>
-      <p class="intro">A little taste of happiness, made fresh every day.</p>
-      <a class="button" href="#menu">Explore Menu</a>
-    </div>
-    <div class="hero-badge">Made with<br><strong>♥</strong><br>every day</div>
-  </header>
-
-  <main id="menu" class="menu-section">
-    <div class="section-heading">
-      <p class="eyebrow">WHAT WE SERVE</p>
-      <h2>Our Menu</h2>
-      <p>Find your new favourite.</p>
-    </div>
-
-    <div class="controls">
-      <input id="search" type="search" placeholder="Search dishes..." aria-label="Search dishes">
-      <div class="filters" aria-label="Filter menu">
-        <button class="filter active" data-category="All">All</button>
-        <button class="filter" data-category="Starters">Starters</button>
-        <button class="filter" data-category="Mains">Mains</button>
-        <button class="filter" data-category="Desserts">Desserts</button>
-        <button class="filter" data-category="Drinks">Drinks</button>
+      <p class="eyebrow">✦ FRESH &nbsp;·&nbsp; LOCAL &nbsp;·&nbsp; HANDCRAFTED</p>
+      <h1>A table full<br><em>of stories.</em></h1>
+      <p class="intro">Every dish we serve carries the warmth of hand-picked ingredients<br class="br-hide"> and the passion of our kitchen team.</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="#menu" id="explore-menu-btn">Explore Menu</a>
+        <a class="button button-ghost" href="#visit" id="find-us-btn">Find Us</a>
       </div>
     </div>
 
-    <div id="menu-grid" class="menu-grid" aria-live="polite"></div>
-    <p id="empty-message" class="empty hidden">No dishes found. Try another search.</p>
+    <div class="hero-badge" aria-hidden="true">
+      <span>Made with</span>
+      <strong>♥</strong>
+      <span>every day</span>
+    </div>
+
+    <div class="hero-scroll-hint" aria-hidden="true">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </header>
+
+  <!-- ── STATS BAR ─────────────────────────────────── -->
+  <div class="stats-bar" aria-label="Restaurant highlights">
+    <div class="stat"><strong>12+</strong><span>Years of Flavor</span></div>
+    <div class="stat-sep" aria-hidden="true"></div>
+    <div class="stat"><strong>40+</strong><span>Signature Dishes</span></div>
+    <div class="stat-sep" aria-hidden="true"></div>
+    <div class="stat"><strong>4.9★</strong><span>Guest Rating</span></div>
+    <div class="stat-sep" aria-hidden="true"></div>
+    <div class="stat"><strong>100%</strong><span>Locally Sourced</span></div>
+  </div>
+
+  <!-- ── MENU SECTION ───────────────────────────────── -->
+  <main id="menu" class="menu-section">
+    <div class="section-heading">
+      <p class="eyebrow">WHAT WE SERVE</p>
+      <h2>Our Seasonal Menu</h2>
+      <p class="section-sub">Find your new favourite from our chef-curated selection.</p>
+    </div>
+
+    <div class="controls">
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M14 14l3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <input id="search" type="search" placeholder="Search dishes…" aria-label="Search dishes">
+      </div>
+      <div class="filters" role="group" aria-label="Filter by category">
+        <button class="filter active" data-category="All" id="filter-all">All</button>
+        <button class="filter" data-category="Starters" id="filter-starters">Starters</button>
+        <button class="filter" data-category="Mains" id="filter-mains">Mains</button>
+        <button class="filter" data-category="Desserts" id="filter-desserts">Desserts</button>
+        <button class="filter" data-category="Drinks" id="filter-drinks">Drinks</button>
+      </div>
+    </div>
+
+    <div id="menu-grid" class="menu-grid" aria-live="polite" aria-label="Menu items"></div>
+    <p id="empty-message" class="empty hidden" role="status">No dishes found. Try another search.</p>
   </main>
 
-  <section class="visit">
-    <div>
-      <p class="eyebrow">COME SAY HELLO</p>
-      <h2>Good food is<br>always a good idea.</h2>
-    </div>
-    <div class="visit-details">
-      <p><strong>Opening hours</strong><br>Mon–Sun: 11:00 AM – 10:00 PM</p>
-      <p><strong>Find us</strong><br>12 Garden Street, Your City</p>
-      <p><strong>Call us</strong><br>+91 98765 43210</p>
+  <!-- ── CHEF'S NOTE ────────────────────────────────── -->
+  <section class="chefs-note" aria-label="Chef's note">
+    <div class="chefs-note-inner">
+      <div class="chefs-note-text">
+        <p class="eyebrow">FROM OUR KITCHEN</p>
+        <h2>A note from<br><em>the chef</em></h2>
+        <p>"Cooking is love made visible. Every dish here is crafted with seasonal, locally sourced ingredients and an obsessive attention to flavour. We hope you feel that care in every bite."</p>
+        <p class="chef-sig">— Chef Arvind Mehta, Head Chef</p>
+      </div>
+      <div class="chefs-note-visual" aria-hidden="true">
+        <div class="quote-mark">"</div>
+      </div>
     </div>
   </section>
 
+  <!-- ── VISIT SECTION ──────────────────────────────── -->
+  <section class="visit" id="visit" aria-label="Visit us">
+    <div class="visit-text">
+      <p class="eyebrow">COME SAY HELLO</p>
+      <h2>Good food is<br>always a good idea.</h2>
+      <a class="button button-primary" href="tel:+919876543210" id="call-reserve-btn">Call to Reserve</a>
+    </div>
+    <div class="visit-cards">
+      <div class="visit-card">
+        <div class="visit-icon" aria-hidden="true">🕐</div>
+        <strong>Opening Hours</strong>
+        <p>Mon – Fri: 11 AM – 10 PM<br>Sat – Sun: 10 AM – 11 PM</p>
+      </div>
+      <div class="visit-card">
+        <div class="visit-icon" aria-hidden="true">📍</div>
+        <strong>Find Us</strong>
+        <p>12 Garden Street,<br>Hyderabad, Telangana</p>
+      </div>
+      <div class="visit-card">
+        <div class="visit-icon" aria-hidden="true">📞</div>
+        <strong>Call Us</strong>
+        <p>+91 98765 43210<br>hello@spicegarden.in</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────── -->
   <footer>
-    <a class="logo" href="#">Spice<span>Garden</span></a>
-    <p>© <span id="year"></span> Spice Garden. Made with love and good ingredients.</p>
+    <div class="footer-inner">
+      <a class="logo" href="#home" aria-label="Spice Garden home">Spice<span>Garden</span></a>
+      <p class="footer-tagline">Fresh. Local. Delicious.</p>
+      <p class="footer-copy">© <span id="year"></span> Spice Garden. Made with love and good ingredients.</p>
+    </div>
   </footer>
+
   <script src="script.js"></script>
 </body>
 </html>
