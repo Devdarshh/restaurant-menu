@@ -155,12 +155,20 @@ const emptyMessage = document.getElementById("empty-message");
 // ── FETCH LIVE MENU FROM BACKEND OR GITHUB ─────────────────
 async function fetchMenu() {
   try {
-    // If on GitHub Pages, fetch data/dishes.json; if on custom server/local, fetch /api/menu
     const isGitHubPages = window.location.hostname.includes('github.io');
-    const endpoint = isGitHubPages ? './data/dishes.json' : '/api/menu';
+    const primaryEndpoint = isGitHubPages ? 'https://15-207-115-54.sslip.io/api/menu' : '/api/menu';
 
-    const res = await fetch(endpoint);
-    if (res.ok) {
+    let res;
+    try {
+      res = await fetch(primaryEndpoint);
+    } catch (e) {
+      // Fallback to static data on GitHub Pages if backend is unreachable
+      if (isGitHubPages) {
+        res = await fetch('./data/dishes.json');
+      }
+    }
+
+    if (res && res.ok) {
       const liveDishes = await res.json();
       if (Array.isArray(liveDishes) && liveDishes.length > 0) {
         dishes = liveDishes;

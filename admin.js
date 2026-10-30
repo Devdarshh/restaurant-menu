@@ -5,7 +5,7 @@ let authToken = localStorage.getItem('spicegarden_token') || '';
 
 // ── API BASE URL (auto-detects GitHub Pages vs EC2 direct) ─────────
 const isGitHubPages = window.location.hostname.includes('github.io') || window.location.hostname.includes('github.com');
-const API_BASE = isGitHubPages ? 'http://15.207.115.54' : '';
+const API_BASE = isGitHubPages ? 'https://15-207-115-54.sslip.io' : '';
 
 // ── DOM ELEMENTS ──────────────────────────────────────────────────
 const loginOverlay  = document.getElementById('login-overlay');
