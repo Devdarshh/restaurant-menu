@@ -19,7 +19,7 @@
     "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=80",
     "veg": true,
     "badge": "Fan Favourite",
-    "available": false
+    "available": true
   },
   {
     "id": "dish_2",
