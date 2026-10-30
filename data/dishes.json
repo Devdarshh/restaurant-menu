@@ -1,5 +1,16 @@
 [
   {
+    "id": "dish_1793402541669_4bws",
+    "name": "devu",
+    "category": "Starters",
+    "price": 1,
+    "description": "",
+    "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80",
+    "veg": true,
+    "badge": "Fan Favourite",
+    "available": true
+  },
+  {
     "id": "dish_1793400830333_4fn9",
     "name": "Chickn Curry",
     "category": "Mains",
