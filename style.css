@@ -614,3 +614,34 @@ footer .logo span { color: #f3a96e; }
   .stat-sep { display: none; }
   .stat { padding: 10px 14px; }
 }
+
+
+/* ─── LIVE STATUS & ADMIN LINK ────────────────────────────── */
+.card-unavailable {
+  opacity: 0.65;
+  filter: grayscale(0.25);
+}
+.card-sold-out {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(198, 40, 40, 0.9);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border-radius: 20px;
+  backdrop-filter: blur(6px);
+}
+.footer-admin-link {
+  color: rgba(255,255,255,0.45);
+  font-size: 11px;
+  text-decoration: underline;
+  margin-left: 14px;
+  transition: color 0.2s ease;
+}
+.footer-admin-link:hover {
+  color: #f3a96e;
+}

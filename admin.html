@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Spice Garden Menu Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <!-- ── AUTH LOGIN GATE ──────────────────────────────────────── -->
+  <div id="login-overlay" class="login-overlay">
+    <div class="login-card">
+      <div class="login-brand">
+        <h1>Spice<span>Garden</span></h1>
+        <p class="admin-badge">Admin Control Panel</p>
+      </div>
+      <p class="login-sub">Enter your manager password to manage menu dishes, update prices, and control stock availability.</p>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="admin-password">Manager Password</label>
+          <input type="password" id="admin-password" placeholder="Enter password (default: admin123)" required autofocus>
+        </div>
+        <p id="login-error" class="error-msg hidden"></p>
+        <button type="submit" class="btn btn-primary btn-block" id="login-submit-btn">Unlock Dashboard</button>
+      </form>
+      <div class="login-hint">
+        <span>Default password: <code>admin123</code></span>
+      </div>
+      <a href="/" class="login-back-link">← Back to Customer Website</a>
+    </div>
+  </div>
+
+  <!-- ── MAIN ADMIN INTERFACE ─────────────────────────────────── -->
+  <div id="app-container" class="app-container hidden">
+
+    <!-- Top Navigation -->
+    <header class="admin-header">
+      <div class="admin-header-inner">
+        <div class="brand">
+          <a href="/admin" class="logo">Spice<span>Garden</span></a>
+          <span class="badge-role">Manager Panel</span>
+        </div>
+        <div class="admin-nav-actions">
+          <a href="/" target="_blank" class="btn btn-outline" title="Open live customer view in new tab">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            View Customer Site
+          </a>
+          <button id="logout-btn" class="btn btn-ghost">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="admin-main">
+      <!-- Welcome & Stats -->
+      <section class="overview-section">
+        <div class="overview-heading">
+          <h2>Menu Management</h2>
+          <p>Add new dishes, adjust prices, or toggle items in/out of stock. Changes apply to the live site immediately.</p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-label">Total Dishes</span>
+            <strong id="stat-total" class="stat-value">0</strong>
+            <span class="stat-sub">Active in menu</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">In Stock</span>
+            <strong id="stat-available" class="stat-value text-green">0</strong>
+            <span class="stat-sub">Ready to serve</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Out of Stock</span>
+            <strong id="stat-unavailable" class="stat-value text-orange">0</strong>
+            <span class="stat-sub">Hidden / Sold out</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Categories</span>
+            <strong id="stat-categories" class="stat-value">4</strong>
+            <span class="stat-sub">Starters, Mains, Desserts, Drinks</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Action Bar -->
+      <section class="toolbar">
+        <div class="search-filter-wrap">
+          <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="9" r="6"/><path d="M14 14l3 3"/></svg>
+            <input type="search" id="admin-search" placeholder="Search dish by name or description…">
+          </div>
+          <div class="category-pills" id="admin-category-filters">
+            <button class="pill active" data-cat="All">All</button>
+            <button class="pill" data-cat="Starters">Starters</button>
+            <button class="pill" data-cat="Mains">Mains</button>
+            <button class="pill" data-cat="Desserts">Desserts</button>
+            <button class="pill" data-cat="Drinks">Drinks</button>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button id="add-dish-btn" class="btn btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Add New Dish
+          </button>
+        </div>
+      </section>
+
+      <!-- Dishes Table / Card Container -->
+      <section class="dishes-section">
+        <div class="table-container">
+          <table class="dishes-table">
+            <thead>
+              <tr>
+                <th style="width: 70px;">Image</th>
+                <th>Dish Details</th>
+                <th>Category</th>
+                <th style="width: 120px;">Price (₹)</th>
+                <th style="width: 140px;">Availability</th>
+                <th style="width: 130px; text-align: right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="dishes-tbody">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+          <div id="no-results" class="no-results hidden">
+            <p>No dishes found matching your criteria.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="admin-footer">
+      <p>Spice Garden Menu System • Live on AWS EC2 • Connected to Backend API</p>
+    </footer>
+  </div>
+
+  <!-- ── MODAL: ADD / EDIT DISH ───────────────────────────────── -->
+  <div id="dish-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-title">Add New Dish</h3>
+        <button id="modal-close-btn" class="modal-close" aria-label="Close">&times;</button>
+      </div>
+
+      <form id="dish-form">
+        <input type="hidden" id="dish-id">
+
+        <div class="form-row">
+          <div class="form-group flex-2">
+            <label for="dish-name">Dish Name *</label>
+            <input type="text" id="dish-name" placeholder="e.g. Garlic Butter Naan" required>
+          </div>
+          <div class="form-group flex-1">
+            <label for="dish-category">Category *</label>
+            <select id="dish-category" required>
+              <option value="Starters">Starters</option>
+              <option value="Mains">Mains</option>
+              <option value="Desserts">Desserts</option>
+              <option value="Drinks">Drinks</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label for="dish-price">Price (₹ INR) *</label>
+            <input type="number" id="dish-price" min="0" step="1" placeholder="e.g. 199" required>
+          </div>
+          <div class="form-group flex-1">
+            <label for="dish-badge">Badge (Optional)</label>
+            <select id="dish-badge">
+              <option value="">No Badge</option>
+              <option value="Best Seller">Best Seller</option>
+              <option value="Fan Favourite">Fan Favourite</option>
+              <option value="Chef's Pick">Chef's Pick</option>
+              <option value="New">New</option>
+              <option value="Seasonal">Seasonal</option>
+              <option value="Premium">Premium</option>
+            </select>
+          </div>
+          <div class="form-group flex-1" style="display: flex; flex-direction: column; justify-content: flex-end;">
+            <label class="checkbox-label">
+              <input type="checkbox" id="dish-veg" checked>
+              <span>Vegetarian (Green Dot)</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="dish-desc">Description</label>
+          <textarea id="dish-desc" rows="3" placeholder="Describe the ingredients, cooking style, or flavor profile…"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="dish-image">Photo URL</label>
+          <input type="url" id="dish-image" placeholder="https://images.unsplash.com/...">
+          <span class="field-hint">Paste an Unsplash or direct image URL. If empty, a beautiful placeholder is used.</span>
+        </div>
+
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="dish-available" checked>
+            <span><strong>Available for Ordering</strong> (Uncheck to mark as Sold Out)</span>
+          </label>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="modal-cancel-btn" class="btn btn-outline">Cancel</button>
+          <button type="submit" id="modal-save-btn" class="btn btn-primary">Save Dish</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
