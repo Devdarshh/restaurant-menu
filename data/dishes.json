@@ -1,5 +1,16 @@
 [
   {
+    "id": "dish_1793400830333_4fn9",
+    "name": "Chickn Curry",
+    "category": "Mains",
+    "price": 599,
+    "description": "",
+    "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80",
+    "veg": false,
+    "badge": "Best Seller",
+    "available": false
+  },
+  {
     "id": "dish_1",
     "name": "Crispy Garden Salad",
     "category": "Starters",
@@ -8,7 +19,7 @@
     "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=80",
     "veg": true,
     "badge": "Fan Favourite",
-    "available": true
+    "available": false
   },
   {
     "id": "dish_2",
