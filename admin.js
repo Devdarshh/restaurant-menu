@@ -3,6 +3,10 @@ let dishes = [];
 let activeCategory = 'All';
 let authToken = localStorage.getItem('spicegarden_token') || '';
 
+// ── API BASE URL (auto-detects GitHub Pages vs EC2 direct) ─────────
+const isGitHubPages = window.location.hostname.includes('github.io') || window.location.hostname.includes('github.com');
+const API_BASE = isGitHubPages ? 'http://15.207.115.54' : '';
+
 // ── DOM ELEMENTS ──────────────────────────────────────────────────
 const loginOverlay  = document.getElementById('login-overlay');
 const loginForm     = document.getElementById('login-form');
@@ -49,13 +53,14 @@ function showToast(message) {
 
 // ── API HELPERS ───────────────────────────────────────────────────
 async function apiFetch(url, options = {}) {
+  const fullUrl = url.startsWith('http') ? url : `${API_BASE}${url}`;
   const headers = options.headers || {};
   if (authToken) {
     headers['Authorization'] = `Bearer ${authToken}`;
   }
   headers['Content-Type'] = 'application/json';
 
-  const res = await fetch(url, { ...options, headers });
+  const res = await fetch(fullUrl, { ...options, headers });
   if (res.status === 401) {
     handleUnauthorized();
     throw new Error('Unauthorized');
@@ -79,7 +84,7 @@ async function checkAuth() {
   }
 
   try {
-    const res = await fetch('/api/auth/check', {
+    const res = await fetch(`${API_BASE}/api/auth/check`, {
       headers: { 'Authorization': `Bearer ${authToken}` }
     });
     const data = await res.json();
@@ -101,7 +106,7 @@ loginForm.addEventListener('submit', async (e) => {
   const password = adminPassword.value.trim();
 
   try {
-    const res = await fetch('/api/auth/login', {
+    const res = await fetch(`${API_BASE}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ password })
@@ -128,7 +133,7 @@ loginForm.addEventListener('submit', async (e) => {
 
 logoutBtn.addEventListener('click', async () => {
   try {
-    await apiFetch('/api/auth/logout', { method: 'POST' });
+    await apiFetch(`${API_BASE}/api/auth/logout`, { method: 'POST' });
   } catch (e) {}
   handleUnauthorized();
 });
@@ -136,7 +141,7 @@ logoutBtn.addEventListener('click', async () => {
 // ── LOAD & RENDER DISHES ──────────────────────────────────────────
 async function loadDishes() {
   try {
-    const res = await apiFetch('/api/menu');
+    const res = await apiFetch(`${API_BASE}/api/menu`);
     dishes = await res.json();
     updateStats();
     renderTable();
@@ -226,7 +231,7 @@ categoryPills.forEach(pill => {
 // ── TOGGLE STOCK ──────────────────────────────────────────────────
 window.toggleStock = async function(id) {
   try {
-    const res = await apiFetch(`/api/menu/${id}/toggle`, { method: 'PATCH' });
+    const res = await apiFetch(`${API_BASE}/api/menu/${id}/toggle`, { method: 'PATCH' });
     const data = await res.json();
     if (data.success) {
       const idx = dishes.findIndex(d => d.id === id);
@@ -249,7 +254,7 @@ window.deleteDish = async function(id) {
   if (!confirm(`Are you sure you want to permanently delete "${name}"?`)) return;
 
   try {
-    const res = await apiFetch(`/api/menu/${id}`, { method: 'DELETE' });
+    const res = await apiFetch(`${API_BASE}/api/menu/${id}`, { method: 'DELETE' });
     if (res.ok) {
       dishes = dishes.filter(d => d.id !== id);
       updateStats();
@@ -321,13 +326,13 @@ dishForm.addEventListener('submit', async (e) => {
     let res;
     if (id) {
       // Edit
-      res = await apiFetch(`/api/menu/${id}`, {
+      res = await apiFetch(`${API_BASE}/api/menu/${id}`, {
         method: 'PUT',
         body: JSON.stringify(payload)
       });
     } else {
       // Create
-      res = await apiFetch('/api/menu', {
+      res = await apiFetch(`${API_BASE}/api/menu`, {
         method: 'POST',
         body: JSON.stringify(payload)
       });
